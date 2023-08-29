@@ -2,6 +2,7 @@ import "./App.css";
 import { useState } from "react";
 
 import Board from "./component/Board/Board";
+import ScoreBoard from "./component/ScoreBoard/ScoreBoard";
 
 function App() {
   const WIN_CONDITIONS = [
@@ -30,18 +31,19 @@ function App() {
 
     const winner = checkWinner(updatedBoard);
 
-    // if (winner) {
-    //   if (winner === "0") {
-    //     let { oScore } = scores;
-    //     oScore += 1;
-    //     setScores({ ...scores, oScore });
-    //   } else {
-    //     if (winner === "X") {
-    //       let { xScore } = scores;
-    //       xScore += 1;
-    //       setScores({ ...scores, xScore });
-    //     }
-    //   }
+    if (winner) {
+      if (winner === "0") {
+        let { oScore } = scores;
+        oScore += 1;
+        setScores({ ...scores, oScore });
+      } else {
+        if (winner === "X") {
+          let { xScore } = scores;
+          xScore += 1;
+          setScores({ ...scores, xScore });
+        }
+      }
+    }
 
     setBoard(updatedBoard);
     setXPlaying(!xPlaying);
@@ -60,6 +62,7 @@ function App() {
 
   return (
     <div>
+      <ScoreBoard scores={scores} xPlaying={xPlaying} />
       <Board board={board} onClick={handleBoardClick} />
     </div>
   );
