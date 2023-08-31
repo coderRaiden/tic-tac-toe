@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Board from "./component/Board/Board";
 import ScoreBoard from "./component/ScoreBoard/ScoreBoard";
+import Reset from "./component/Reset/Reset";
 
 function App() {
   const WIN_CONDITIONS = [
@@ -18,12 +19,13 @@ function App() {
 
   const [board, setBoard] = useState(Array(9).fill(null));
   const [xPlaying, setXPlaying] = useState(true);
-  const [scores, setScores] = useState({ xScore: 0, yScore: 0 });
+  const [scores, setScores] = useState({ xScore: 0, oScore: 0 });
+  const [gameOver, setGameOver] = useState(false);
 
   const handleBoardClick = (boxIdx) => {
     const updatedBoard = board.map((value, idx) => {
       if (idx === boxIdx) {
-        return xPlaying === true ? "X" : "0";
+        return xPlaying === true ? "X" : "O";
       } else {
         return value;
       }
@@ -32,7 +34,7 @@ function App() {
     const winner = checkWinner(updatedBoard);
 
     if (winner) {
-      if (winner === "0") {
+      if (winner === "O") {
         let { oScore } = scores;
         oScore += 1;
         setScores({ ...scores, oScore });
@@ -45,6 +47,8 @@ function App() {
       }
     }
 
+    console.log(scores);
+
     setBoard(updatedBoard);
     setXPlaying(!xPlaying);
   };
@@ -54,16 +58,22 @@ function App() {
       const [x, y, z] = WIN_CONDITIONS[i];
 
       if (board[x] && board[x] === board[y] && board[y] === board[z]) {
-        console.log(board[x]);
+        setGameOver(true);
         return board[x];
       }
     }
   };
 
+  const resetBoard = () => {
+    setGameOver(false);
+    setBoard(Array(9).fill(null));
+  };
+
   return (
     <div>
       <ScoreBoard scores={scores} xPlaying={xPlaying} />
-      <Board board={board} onClick={handleBoardClick} />
+      <Board board={board} onClick={gameOver ? resetBoard : handleBoardClick} />
+      <Reset resetBoard={resetBoard} />
     </div>
   );
 }

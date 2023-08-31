@@ -4,11 +4,11 @@ import "./ScoreBoard.css";
 const ScoreBoard = ({ scores, xPlaying }) => {
   const { xScore, oScore } = scores;
   return (
-    <div className="ScoreBoard">
-      <span className={`socore x-score ${!xPlaying && "inactive"}`}>
+    <div className="scoreBoard">
+      <span className={`score x-score ${!xPlaying && "inactive"}`}>
         X - {xScore}
       </span>
-      <span className={`socore x-score ${xPlaying && "inactive"}`}>
+      <span className={`score o-score ${xPlaying && "inactive"}`}>
         O - {oScore}
       </span>
     </div>
